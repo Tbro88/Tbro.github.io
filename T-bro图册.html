@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-bro · 全车型产品图册</title>
+    <!-- Nunito & Exo 2 字体，汽车风格 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=Nunito:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (免费) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0f14;
+            font-family: 'Nunito', sans-serif;
+            color: #f0f3f8;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* 抬头区域 */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #2e3a4e;
+            padding-bottom: 2rem;
+        }
+
+        .main-title {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 800;
+            font-size: 4.5rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 20%, #b0c4de 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 8px rgba(70,130,200,0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title .red-t {
+            background: none;
+            color: #ff3b3b;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            text-shadow: 0 0 12px rgba(255, 59, 59, 0.6);
+        }
+
+        .sub-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: #a3c0dd;
+            letter-spacing: 2px;
+            word-spacing: 4px;
+            background: rgba(20, 30, 45, 0.6);
+            display: inline-block;
+            padding: 0.3rem 2.5rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #3f5570;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        /* 两大分类卡片 */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: transparent;
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            padding: 0.8rem 2.5rem;
+            cursor: pointer;
+            color: #9aaec9;
+            letter-spacing: 1.5px;
+            border-bottom: 4px solid transparent;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            background: #1e2632;
+            border-radius: 50px 50px 10px 10px;
+            box-shadow: 0 6px 0 #0f131a;
+        }
+
+        .cat-btn i {
+            margin-right: 10px;
+            font-size: 1.6rem;
+            color: #5f85b3;
+        }
+
+        .cat-btn.active {
+            color: white;
+            border-bottom: 4px solid #ffb347;
+            background: #273649;
+            box-shadow: 0 8px 0 #0f131a;
+            transform: translateY(-2px);
+        }
+
+        .cat-btn.active i {
+            color: #ffb347;
+        }
+
+        .content-section {
+            background: #151e27;
+            border-radius: 36px 36px 30px 30px;
+            padding: 2rem 1.5rem;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 20px 30px -10px black;
+            border: 1px solid #31445a;
+        }
+
+        /* 左右布局容器 */
+        .model-layout {
+            display: flex;
+            gap: 2rem;
+        }
+
+        /* 右侧车型侧边栏 */
+        .model-sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            background: #1f2a36;
+            border-radius: 24px;
+            padding: 1rem 0.5rem;
+            border: 1px solid #334a61;
+            height: fit-content;
+            max-height: 70vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 2rem;
+            /* 自定义滚动条样式 - WebKit (Chrome, Safari, Edge) */
+            &::-webkit-scrollbar {
+                width: 6px;
+            }
+            &::-webkit-scrollbar-track {
+                background: #1f2a36;
+                border-radius: 10px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: #ffb347;
+                border-radius: 10px;
+                border: 1px solid #334a61;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: #ffa01e;
+            }
+            /* Firefox 滚动条样式 */
+            scrollbar-width: thin;
+            scrollbar-color: #ffb347 #1f2a36;
+        }
+
+        .model-sidebar .model-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .model-sidebar .model-tab {
+            width: 100%;
+            max-width: none;
+            text-align: left;
+            font-size: 0.95rem;
+            padding: 0.6rem 1rem;
+            background: #1f2a36;
+            border: 1px solid #334a61;
+            border-radius: 40px;
+            color: #a7b9d0;
+            transition: 0.15s;
+            white-space: normal;
+            word-break: break-word;
+        }
+
+        .model-sidebar .model-tab i {
+            margin-right: 8px;
+            color: #6086b4;
+        }
+
+        .model-sidebar .model-tab.active {
+            background: #ffb347;
+            color: #0b0f14;
+            border-color: #ffb347;
+        }
+        .model-sidebar .model-tab.active i {
+            color: #121a24;
+        }
+
+        /* 左侧网格区域 */
+        .model-grid {
+            flex: 1;
+            min-width: 0; /* 防止溢出 */
+        }
+
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 0;
+        }
+
+        .card {
+            background: #1e2937;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 12px 22px -8px rgba(0,0,0,0.7);
+            transition: 0.25s ease;
+            border: 1px solid #384f67;
+            backdrop-filter: blur(2px);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer; /* 提示可点击 */
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ffb347;
+            box-shadow: 0 22px 30px -6px #ffb34720, 0 0 0 2px #ffb34730;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            background: #2e3f50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.8rem;
+            border-bottom: 2px solid #2b3f54;
+            transition: 0.2s;
+        }
+
+        .card-info {
+            padding: 1.2rem 1rem 1.3rem;
+            background: #17212b;
+            flex: 1;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ffd9a3;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .card-title i {
+            color: #ffb347;
+            font-size: 1.1rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #b6c9e0;
+            opacity: 0.9;
+        }
+
+        /* 视频卡片播放按钮 */
+        .video-thumb {
+            position: relative;
+        }
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 2px solid #ffb347;
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+            pointer-events: none; /* 让点击穿透到卡片 */
+        }
+        .card:hover .play-icon {
+            background: #ffb347;
+            color: #0b0f14;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .empty-note {
+            text-align: center;
+            padding: 3rem;
+            color: #7b94ad;
+            font-size: 1.4rem;
+            font-style: italic;
+        }
+
+        .footer-note {
+            margin-top: 4rem;
+            text-align: center;
+            color: #3e5268;
+            font-size: 1rem;
+            border-top: 1px solid #253241;
+            padding-top: 2rem;
+        }
+        .footer-note i {
+            color: #ffb347;
+        }
+
+        /* Lightbox 样式（共用） */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border: 3px solid #ffb347;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255,180,70,0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ffb347;
+            z-index: 10000;
+        }
+        .lightbox-close:hover {
+            color: #ffb347;
+            transform: scale(1.1);
+        }
+
+        /* 视频模态框中的 video 标签 */
+        #modalVideo {
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: 85vh;
+        }
+
+        .card-img {
+            cursor: pointer;
+        }
+
+        /* 响应式：小屏幕时侧边栏在上方横向滚动 */
+        @media (max-width: 900px) {
+            .model-layout {
+                flex-direction: column;
+            }
+            .model-sidebar {
+                width: 100%;
+                position: static;
+                max-height: none;
+                overflow-x: auto;
+                padding: 0.8rem;
+            }
+            .model-sidebar .model-tabs {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            .model-sidebar .model-tab {
+                flex-shrink: 0;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .main-title { font-size: 3rem; }
+            .sub-title { font-size: 1.2rem; }
+            .cat-btn { font-size: 1.3rem; padding: 0.5rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="main-title"><span class="red-t">T</span>-bro</div>
+            <div class="sub-title">致力为汽车个性化创造更多可能</div>
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active" id="btn-album"><i class="fas fa-images"></i> 产品图册</button>
+            <button class="cat-btn" id="btn-video"><i class="fas fa-play-circle"></i> 视频</button>
+        </div>
+
+        <div class="content-section" id="content-area">
+            <!-- 动态渲染 -->
+        </div>
+        
+        <div class="footer-note">
+            <i class="fas fa-wrench"></i> T-bro · 每一处改装都是个性的延伸 <i class="fas fa-crown"></i>
+        </div>
+    </div>
+
+    <!-- 图片 Lightbox 结构 -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" id="closeLightbox">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="放大预览">
+    </div>
+
+    <!-- 视频播放模态框 -->
+    <div id="videoModal" class="lightbox">
+        <span class="lightbox-close" id="closeVideoModal">&times;</span>
+        <video id="modalVideo" class="lightbox-content" controls controlsList="nodownload"></video>
+    </div>
+
+    <script>
+        (function() {
+            // ---------- 17个车型顺序 ----------
+            const models = [
+                '名爵MG7',
+                '领克03',
+                '小米SU7',
+                '特斯拉modelY焕新版',
+                '名爵MG4',
+                '长安uniV',
+                '蔚来ET5（老款）',
+                '蔚来ET7',
+                '特斯拉modelY',
+                '特斯拉model3焕新版',
+                '熊猫mini',
+                '极氪007GT',
+                '特斯拉model3',
+                '理想L7L8L9',
+                '小米YU7',
+                '名爵MG4（新款）',
+                '小鹏P7Ultra'
+            ];
+
+            // ================= 产品图册数据 =================
+            const productAlbum = {
+                '名爵MG7': [
+                    { title: 'MG7 扩散前杠', desc: '运动感提升 / 轻量化', img: 'MG7-ks1.png', icon: 'fa-car' },
+                    { title: 'MG7 扩散前杠', desc: '运动感提升 / 轻量化', img: 'MG7-ks2.png', icon: 'fa-car' },
+                    { title: 'MG7 扩散前杠', desc: '运动感提升 / 轻量化', img: 'MG7-1.jpg', icon: 'fa-car' },
+                    { title: 'MG7 扩散前杠', desc: '运动感提升 / 轻量化', img: 'MG7-2.jpg', icon: 'fa-car' },
+                    { title: 'MG7 扩散后唇（1代）', desc: '运动感提升 / 轻量化', img: 'MG7-ks5.jpg', icon: 'fa-caret-down' },
+                    { title: 'MG7 扩散后唇（1代）', desc: '运动感提升 / 轻量化', img: 'MG7-3.jpg', icon: 'fa-caret-down' },
+                    { title: 'MG7 扩散后唇（1代）', desc: '运动感提升 / 轻量化', img: 'MG7-4.jpg', icon: 'fa-caret-down' },
+                    { title: 'MG7 扩散后唇（2代）', desc: '运动感提升 / 轻量化', img: 'MG7-ks3.png', icon: 'fa-caret-down' },
+                    { title: 'MG7 扩散后唇（2代）', desc: '运动感提升 / 轻量化', img: 'MG7-ks4.png', icon: 'fa-caret-down' },
+                    { title: 'MG7 阿母鸡前杠', desc: '竞技风格，扰流设计', img: 'MG7-5.jpg', icon: 'fa-car' },
+                    { title: 'MG7 阿母鸡前杠', desc: '竞技风格，扰流设计', img: 'MG7-6.jpg', icon: 'fa-car' },
+                    { title: 'MG7 阿母鸡前杠', desc: '竞技风格，扰流设计', img: 'MG7-7.jpg', icon: 'fa-car' }
+                ],
+                '领克03': [
+                    { title: '领克03 TB前铲', desc: '双层式设计，贴合原车', img: 'LIN03-1.jpg', icon: 'fa-car' },
+                    { title: '领克03 TB后唇', desc: '点缀尾部线条', img: 'LIN03-2.jpg', icon: 'fa-caret-down' },
+                    { title: '领克03 TB侧裙', desc: '运动感提升，凌厉线条', img: 'LIN03-3.jpg', icon: 'fa-ruler' },
+                    { title: '领克03 TB尾翼', desc: '减少风阻，运动感', img: 'LIN03-4.jpg', icon: 'fa-feather' },
+                    { title: '领克03 TB尾翼', desc: '减少风阻，运动感', img: 'LIN03-5.jpg', icon: 'fa-feather' },
+                ],
+                '小米SU7': [
+                    { title: 'SU7 奥创前唇', desc: '超跑设计', img: 'SU7-1.jpg', icon: 'fa-bolt' },
+                    { title: 'SU7 奥创前唇', desc: '超跑设计', img: 'SU7-8.jpg', icon: 'fa-bolt' },
+                    { title: 'SU7 奥创侧裙', desc: '竞技风格', img: 'SU7-3.jpg', icon: 'fa-lightbulb' },
+                    { title: 'SU7 奥创侧裙', desc: '竞技风格', img: 'SU7-4.jpg', icon: 'fa-lightbulb' },
+                    { title: 'SU7 奥创侧裙', desc: '竞技风格', img: 'SU7-6.jpg', icon: 'fa-lightbulb' },
+                    { title: 'SU7 奥创后扰流', desc: '', img: 'SU7-2.jpg', icon: 'fa-fan' },
+                    { title: 'SU7 奥创后扰流', desc: '', img: 'SU7-5.jpg', icon: 'fa-fan' },
+                    { title: 'SU7 奥创后扰流', desc: '', img: 'SU7-7.jpg', icon: 'fa-fan' },
+                    { title: 'SU7 奥创尾翼', desc: '减少风阻，扰流设计', img: 'SU7-9.jpg', icon: 'fa-gear' },
+                ],
+                '特斯拉modelY焕新版': [
+                    { title: 'Model Y 焕新前唇', desc: '亮黑，优化气流', img: 'MY-1.jpg', icon: 'fa-water' },
+                    { title: 'Model Y 焕新前唇', desc: '亮黑，优化气流', img: 'MY-2.jpg', icon: 'fa-water' },
+                    { title: 'Model Y 焕新前唇', desc: '亮黑，优化气流', img: 'MY-3.jpg', icon: 'fa-water' },
+                    { title: 'Model Y 焕新摄像头饰板', desc: '车身同色/竞技风格', img: 'MY-4.jpg', icon: 'fa-draw-polygon' },
+                    { title: 'Model Y 焕新摄像头饰板', desc: '车身同色/竞技风格', img: 'MY-5.jpg', icon: 'fa-draw-polygon' },
+                    { title: 'Model Y 焕新尾翼', desc: '小鸭尾/运动款', img: 'MY-8.jpg', icon: 'fa-dove' },
+                    { title: 'Model Y 焕新尾翼', desc: '小鸭尾/运动款', img: 'MY-9.jpg', icon: 'fa-dove' },
+                    { title: 'Model Y 焕新顶翼', desc: '扰流设计', img: 'MY-6.jpg', icon: 'fa-box' },
+                    { title: 'Model Y 焕新顶翼', desc: '扰流设计', img: 'MY-7.jpg', icon: 'fa-box' },
+                    { title: 'Model Y 焕新顶翼', desc: '扰流设计', img: 'MY-10.jpg', icon: 'fa-box' }
+                ],
+                '名爵MG4': [
+                    { title: 'MG4 前唇', desc: '凌厉线条，纯电专属', img: 'MG4N-1.jpg', icon: 'fa-car' },
+                    { title: 'MG4 侧裙', desc: '简约设计', img: 'MG4N-2.jpg', icon: 'fa-bolt' },
+                    { title: 'MG4 侧裙', desc: '简约设计', img: 'MG4N-3.jpg', icon: 'fa-bolt' },
+                    { title: 'MG4 后唇', desc: '', img: 'MG4N-4.jpg', icon: 'fa-square' },
+                    { title: 'MG4 后唇', desc: '', img: 'MG4N-5.jpg', icon: 'fa-square' },
+                ],
+                '长安uniV': [
+                    { title: 'UNI-V 异星前杠', desc: '', img: 'UNIV-1.jpg', icon: 'fa-fan' },
+                    { title: 'UNI-V 异星前杠', desc: '', img: 'UNIV-2.jpg', icon: 'fa-fan' },
+                    { title: 'UNI-V 异星宽体', desc: '', img: 'UNIV-3.jpg', icon: 'fa-th' },
+                    { title: 'UNI-V 异星宽体', desc: '', img: 'UNIV-4.jpg', icon: 'fa-th' },
+                    { title: 'UNI-V 异星宽体', desc: '', img: 'UNIV-5.jpg', icon: 'fa-th' },
+                    { title: 'UNI-V 异星宽体', desc: '', img: 'UNIV-6.jpg', icon: 'fa-th' },
+                ],
+                '蔚来ET5（老款）': [
+                    { title: 'ET5(老款） 前唇', desc: '', img: 'ET5O-1.jpg', icon: 'fa-car' },
+                    { title: 'ET5(老款） 前唇', desc: '', img: 'ET5O-2.jpg', icon: 'fa-car' },
+                    { title: 'ET5(老款） 侧裙', desc: '', img: 'ET5O-5.jpg', icon: 'fa-ruler' },
+                    { title: 'ET5(老款） 后唇', desc: '', img: 'ET5O-4.jpg', icon: 'fa-lightbulb' },
+                    { title: 'ET5(老款） 后唇', desc: '', img: 'ET5O-3.jpg', icon: 'fa-lightbulb' },
+                ],
+                '蔚来ET7': [
+                    { title: 'ET7 前唇', desc: '豪华感提升', img: 'ET7-1.jpg', icon: 'fa-star' },
+                    { title: 'ET7 前唇', desc: '豪华感提升', img: 'ET7-2.jpg', icon: 'fa-star' },
+                    { title: 'ET7 侧裙', desc: '黑化', img: 'ET7-3.jpg', icon: 'fa-circle' },
+                    { title: 'ET7 侧裙', desc: '黑化', img: 'ET7-4.jpg', icon: 'fa-circle' },
+                    { title: 'ET7 后唇', desc: '低风阻', img: 'ET7-5.jpg', icon: 'fa-moon' },
+                    { title: 'ET7 后唇', desc: '低风阻', img: 'ET7-6.jpg', icon: 'fa-moon' },
+                ],
+                '特斯拉modelY': [
+                    { title: 'Model Y 前唇', desc: '', img: 'MYO-1.jpg', icon: 'fa-car' },
+                    { title: 'Model Y 前唇', desc: '', img: 'MYO-2.jpg', icon: 'fa-car' },
+                    { title: 'Model Y 前唇', desc: '', img: 'MYO-3.jpg', icon: 'fa-car' },
+                    { title: 'Model Y 侧裙', desc: '', img: 'MYO-7.jpg', icon: 'fa-draw-polygon' },
+                    { title: 'Model Y 侧裙+后唇', desc: '', img: 'MYO-5.jpg', icon: 'fa-draw-polygon' },
+                    { title: 'Model Y 侧裙+后唇', desc: '', img: 'MYO-6.jpg', icon: 'fa-draw-polygon' },
+                    { title: 'Model Y 后唇', desc: '', img: 'MYO-8.jpg', icon: 'fa-caret-down' },
+                ],
+                '特斯拉model3焕新版': [
+                    { title: 'Model 3 焕新套件全貌', desc: '套件全貌', img: 'M3N-1.jpg', icon: 'fa-feather' },
+                    { title: 'Model 3 焕新前唇', desc: '极简设计', img: 'M3N-2.jpg', icon: 'fa-minus' },
+                    { title: 'Model 3 焕新侧裙', desc: '无缝贴合', img: 'M3N-3.jpg', icon: 'fa-ruler' },
+                    { title: 'Model 3 焕新后唇', desc: '水转印碳纹', img: 'M3N-4.jpg', icon: 'fa-wave-square' },
+                    { title: 'Model 3 焕新后唇', desc: '水转印碳纹', img: 'M3N-5.jpg', icon: 'fa-wave-square' },
+                ],
+                '熊猫mini': [
+                    { title: '熊猫mini 前唇+灯眉', desc: '机甲风格', img: 'XM-1.jpg', icon: 'fa-paw' },
+                    { title: '熊猫mini 前唇+灯眉', desc: '机甲风格', img: 'XM-2.jpg', icon: 'fa-paw' },
+                    { title: '熊猫mini 后唇', desc: '机甲风格', img: 'XM-3.jpg', icon: 'fa-dragon' },
+                    { title: '熊猫mini 后唇', desc: '机甲风格', img: 'XM-4.jpg', icon: 'fa-dragon' },
+                    { title: '熊猫mini 后唇', desc: '机甲风格', img: 'XM-5.jpg', icon: 'fa-dragon' },
+                ],
+                '极氪007GT': [
+                    { title: '007GT 前唇', desc: '猎装风格', img: '007GT-1.jpg', icon: 'fa-bow-arrow' },
+                    { title: '007GT 前唇', desc: '猎装风格', img: '007GT-2.jpg', icon: 'fa-bow-arrow' },
+                    { title: '007GT 侧裙', desc: '', img: '007GT-3.jpg', icon: 'fa-ruler' },
+                    { title: '007GT 后唇', desc: '大扩散器', img: '007GT-4.jpg', icon: 'fa-fan' },
+                    { title: '007GT 后唇', desc: '大扩散器', img: '007GT-5.jpg', icon: 'fa-fan' },
+                ],
+                '特斯拉model3': [
+                    { title: 'Model 3 塑料前唇', desc: 'ABS塑料材质', img: 'M3-S1.jpg', icon: 'fa-car' },
+                    { title: 'Model 3 塑料前唇', desc: 'ABS塑料材质', img: 'M3-S2.jpg', icon: 'fa-car' },
+                    { title: 'Model 3 塑料侧裙', desc: 'ABS塑料材质', img: 'M3-S3.jpg', icon: 'fa-caret-down' },
+                    { title: 'Model 3 塑料后唇', desc: 'ABS塑料材质', img: 'M3-S4.jpg', icon: 'fa-caret-down' },
+                    { title: 'Model 3 碳纤维前铲', desc: '全碳制作', img: 'M3-T1.jpg', icon: 'fa-bolt' },
+                    { title: 'Model 3 碳纤维前铲', desc: '全碳制作', img: 'M3-T2.jpg', icon: 'fa-bolt' },
+                    { title: 'Model 3 碳纤维侧裙+轮眉', desc: '全碳制作', img: 'M3-T3.jpg', icon: 'fa-th' },
+                    { title: 'Model 3 碳纤维侧裙+轮眉', desc: '全碳制作', img: 'M3-T4.jpg', icon: 'fa-th' },
+                    { title: 'Model 3 碳纤维后唇', desc: '全碳制作', img: 'M3-T5.jpg', icon: 'fa-dragon' },
+                    { title: 'Model 3 碳纤维后唇', desc: '全碳制作', img: 'M3-T6.jpg', icon: 'fa-dragon' },
+                ],
+                '理想L7L8L9': [
+                    { title: '理想L9 前铲', desc: '', img: 'L9-1.jpg', icon: 'fa-shield' },
+                    { title: '理想L9 后唇', desc: '', img: 'L9-2.jpg', icon: 'fa-shield' },
+                    { title: '理想L7L8 顶翼与后唇', desc: '', img: 'L7-1.jpg', icon: 'fa-bolt' },
+                    { title: '理想L7L8 顶翼与后唇', desc: '', img: 'L7-2.jpg', icon: 'fa-bolt' },
+                ],
+                '小米YU7': [
+                    { title: 'YU7 前唇', desc: '', img: 'YU7-1.png', icon: 'fa-car' },
+                    { title: 'YU7 前唇', desc: '', img: 'YU7-2.png', icon: 'fa-car' },
+                    { title: 'YU7 侧裙', desc: '运动扩展', img: 'YU7-3.png', icon: 'fa-ruler' },
+                    { title: 'YU7 后唇', desc: '', img: 'YU7-4.png', icon: 'fa-fan' },
+                ],
+                '名爵MG4（新款）': [
+                    { title: 'MG4 前唇', desc: '运动扩展', img: 'MG4N-1.jpg', icon: 'fa-car' },
+                    { title: 'MG4 前唇+侧裙', desc: '运动扩展', img: 'MG4N-2.jpg', icon: 'fa-ruler' },
+                    { title: 'MG4 侧裙', desc: '运动扩展', img: 'MG4N-5.jpg', icon: 'fa-ruler' },
+                    { title: 'MG4 后唇+侧裙+顶翼', desc: '运动扩展', img: 'MG4N-3.jpg', icon: 'fa-fan' },
+                    { title: 'MG4 后唇+顶翼', desc: '运动扩展', img: 'MG4N-4.jpg', icon: 'fa-feather' }
+                ],
+                '小鹏P7Ultra': [
+                    { title: 'P7U 前唇', desc: 'ultra设计', img: 'P7N-1.jpg', icon: 'fa-bolt' },
+                    { title: 'P7U 前唇', desc: 'ultra设计', img: 'P7N-2.jpg', icon: 'fa-bolt' },
+                    { title: 'P7U 后唇', desc: '带领航灯', img: 'P7N-3.jpg', icon: 'fa-light-emergency' },
+                    { title: 'P7U 后唇', desc: '带领航灯', img: 'P7N-4.jpg', icon: 'fa-light-emergency' },
+                    { title: 'P7U 后唇', desc: '带领航灯', img: 'P7N-5.jpg', icon: 'fa-light-emergency' },
+                ]
+            };
+
+            // ================= 视频数据 =================
+            // 请确保 videoSrc 路径正确，文件已放入 images 文件夹
+            const videoItems = [
+                { title: '全新MG4包围效果预览', desc: '装车路跑示例', img: 'MG4N-3.jpg', videoSrc: 'images/MG4N-M1.mp4', duration: '0:27', icon: 'fa-video' },
+                { title: '小米SU7奥创套件', desc: '实装案例', img: 'SU7-1.jpg', videoSrc: 'images/SU7-M1.mp4', duration: '0:14', icon: 'fa-film' },
+                { title: '全新MG4轮眉拉力效果预览', desc: '', img: 'top1.png', videoSrc: 'images/MG4N-M2.mp4', duration: '0:31', icon: 'fa-music' },
+                { title: '全新MG4带轮眉顶翼套件效果预览', desc: '', img: 'MG4N-1.jpg', videoSrc: 'images/MG4N-M3.mp4', duration: '0:23', icon: 'fa-music' },
+                { title: '特斯拉ModelY（老款）实装案例', desc: '改装案例实拍', img: 'MYO-8.jpg', videoSrc: 'images/MYO-M1.mp4', duration: '0:35', icon: 'fa-cloud-rain' },
+                { title: '特斯拉ModelY（老款）实装案例', desc: '改装案例实拍', img: 'MYO-3.jpg', videoSrc: 'images/MYO-M2.mp4', duration: '0:22', icon: 'fa-cloud-rain' }
+            ];
+
+            let currentCategory = 'album';
+            let currentModel = models[0];
+
+            const contentArea = document.getElementById('content-area');
+            const btnAlbum = document.getElementById('btn-album');
+            const btnVideo = document.getElementById('btn-video');
+
+            // ========== 渲染产品图册（左右布局） ==========
+            function renderAlbum(selectedModel) {
+                const products = productAlbum[selectedModel] || [];
+
+                // 生成右侧车型列表
+                let tabsHtml = '<div class="model-tabs">';
+                models.forEach(model => {
+                    const activeClass = (model === selectedModel) ? 'active' : '';
+                    tabsHtml += `<button class="model-tab ${activeClass}" data-model="${model.replace(/"/g, '&quot;')}"><i class="fas fa-tag"></i> ${model}</button>`;
+                });
+                tabsHtml += '</div>';
+
+                // 生成左侧卡片网格
+                let gridHtml = '<div class="card-grid">';
+                if (products.length > 0) {
+                    products.forEach(item => {
+                        const isImage = item.img.includes('.') || item.img.includes('/') || item.img.includes('\\');
+                        if (isImage) {
+                            gridHtml += `
+                                <div class="card">
+                                    <img src="images/${item.img}" alt="${item.title}" class="card-img">
+                                    <div class="card-info">
+                                        <div class="card-title"><i class="fas ${item.icon || 'fa-box'}"></i> ${item.title}</div>
+                                        <div class="card-desc">${item.desc}</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            gridHtml += `
+                                <div class="card">
+                                    <div class="card-img">${item.img}</div>
+                                    <div class="card-info">
+                                        <div class="card-title"><i class="fas ${item.icon || 'fa-box'}"></i> ${item.title}</div>
+                                        <div class="card-desc">${item.desc}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                } else {
+                    gridHtml += `<div class="empty-note"><i class="fas fa-tools"></i> 该车型图册准备中，敬请期待</div>`;
+                }
+                gridHtml += '</div>';
+
+                // 组合左右布局
+                const layoutHtml = `
+                    <div class="model-layout">
+                        <div class="model-sidebar">${tabsHtml}</div>
+                        <div class="model-grid">${gridHtml}</div>
+                    </div>
+                `;
+                contentArea.innerHTML = layoutHtml;
+
+                // 重新绑定车型点击事件
+                document.querySelectorAll('.model-sidebar .model-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const model = e.currentTarget.dataset.model;
+                        if (model && models.includes(model)) {
+                            currentModel = model;
+                            renderAlbum(currentModel);
+                        }
+                    });
+                });
+            }
+
+            // ========== 渲染视频（支持缩略图，并绑定视频播放） ==========
+            function renderVideo() {
+                let html = '<div class="card-grid">';
+                videoItems.forEach((v, index) => {
+                    const isImage = v.img.includes('.') || v.img.includes('/') || v.img.includes('\\');
+                    // 为每个卡片生成唯一ID或使用索引标记视频源
+                    const videoSrc = v.videoSrc || ''; // 视频源路径，如果没有则无法播放
+                    const dataAttr = videoSrc ? ` data-video-src="${videoSrc}"` : ' data-video-src=""';
+                    
+                    if (isImage) {
+                        html += `
+                            <div class="card video-thumb video-card" data-video-index="${index}"${dataAttr}>
+                                <img src="images/${v.img}" alt="${v.title}" class="card-img">
+                                <span class="play-icon"><i class="fas fa-play"></i></span>
+                                <div class="card-info">
+                                    <div class="card-title"><i class="fas ${v.icon || 'fa-video'}"></i> ${v.title}</div>
+                                    <div class="card-desc">${v.desc} · <i class="fa-regular fa-clock"></i> ${v.duration}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="card video-thumb video-card" data-video-index="${index}"${dataAttr}>
+                                <div class="card-img" style="position: relative;">
+                                    ${v.img}
+                                    <span class="play-icon"><i class="fas fa-play"></i></span>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-title"><i class="fas ${v.icon || 'fa-video'}"></i> ${v.title}</div>
+                                    <div class="card-desc">${v.desc} · <i class="fa-regular fa-clock"></i> ${v.duration}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                html += '</div>';
+                contentArea.innerHTML = html;
+            }
+
+            function setActiveCategory(cat) {
+                btnAlbum.classList.remove('active');
+                btnVideo.classList.remove('active');
+                if (cat === 'album') {
+                    btnAlbum.classList.add('active');
+                    renderAlbum(currentModel);
+                } else if (cat === 'video') {
+                    btnVideo.classList.add('active');
+                    renderVideo();
+                }
+                currentCategory = cat;
+            }
+
+            btnAlbum.addEventListener('click', () => setActiveCategory('album'));
+            btnVideo.addEventListener('click', () => setActiveCategory('video'));
+
+            setActiveCategory('album');
+
+            // ---------- 图片 Lightbox 功能 ----------
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeLightbox = document.getElementById('closeLightbox');
+
+            function closeImageLightbox() {
+                lightbox.classList.remove('active');
+                lightboxImg.src = '';
+            }
+
+            closeLightbox.addEventListener('click', closeImageLightbox);
+
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeImageLightbox();
+                }
+            });
+
+            // ---------- 视频播放模态框 ----------
+            const videoModal = document.getElementById('videoModal');
+            const modalVideo = document.getElementById('modalVideo');
+            const closeVideoModal = document.getElementById('closeVideoModal');
+
+            function closeVideoPlayer() {
+                videoModal.classList.remove('active');
+                modalVideo.pause();
+                modalVideo.src = '';
+            }
+
+            closeVideoModal.addEventListener('click', closeVideoPlayer);
+
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    closeVideoPlayer();
+                }
+            });
+
+            // 全局点击事件处理：图片放大和视频播放
+            document.addEventListener('click', function(e) {
+                // 先处理图片放大（只针对产品图册中的图片，且排除视频卡片内的图片）
+                if (e.target.tagName === 'IMG' && e.target.classList.contains('card-img')) {
+                    const parentCard = e.target.closest('.video-card');
+                    // 如果是视频卡片内的图片，交给视频卡片处理（不在这里放大）
+                    if (!parentCard) {
+                        if (e.target.src) {
+                            lightboxImg.src = e.target.src;
+                            lightbox.classList.add('active');
+                        }
+                        return;
+                    }
+                }
+
+                // 处理视频卡片点击
+                const videoCard = e.target.closest('.video-card');
+                if (videoCard) {
+                    const videoSrc = videoCard.dataset.videoSrc;
+                    if (videoSrc) {
+                        e.preventDefault(); // 阻止可能的默认行为
+                        modalVideo.src = videoSrc;
+                        videoModal.classList.add('active');
+                        // 尝试自动播放，如果被浏览器阻止，用户需要手动点击播放按钮
+                        modalVideo.play().catch(error => {
+                            console.log('自动播放被阻止，用户需手动点击播放', error);
+                        });
+                    } else {
+                        alert('该视频暂未添加或路径错误');
+                    }
+                }
+            });
+
+            // 键盘ESC关闭
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (lightbox.classList.contains('active')) {
+                        closeImageLightbox();
+                    }
+                    if (videoModal.classList.contains('active')) {
+                        closeVideoPlayer();
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
